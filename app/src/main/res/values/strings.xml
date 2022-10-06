@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MyStockApp</string>
 
+    <string name="something_went_wrong">Something went wrong. %s</string>
+    <string name="no_stocks">No stocks to display</string>
+
     <plurals name="number_of_stocks">
         <item formatted="true" quantity="one">You own %1$d stock.</item>
         <item formatted="true" quantity="other">You own %1$d stocks.</item>

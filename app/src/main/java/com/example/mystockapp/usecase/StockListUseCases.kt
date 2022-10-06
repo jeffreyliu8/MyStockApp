@@ -1,5 +1,5 @@
 package com.example.mystockapp.usecase
 
-data class MainActivityUseCases(
+data class StockListUseCases(
     val getStocksFromWeb: GetStocksFromWeb,
 )

@@ -6,7 +6,7 @@ import com.example.mystockapp.repository.data.WebApi
 import com.example.mystockapp.repository.impl.WebRepositoryImpl
 import com.example.mystockapp.ui.SnackBarManager
 import com.example.mystockapp.usecase.GetStocksFromWeb
-import com.example.mystockapp.usecase.MainActivityUseCases
+import com.example.mystockapp.usecase.StockListUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,8 +27,8 @@ object AppModule {
     @ViewModelScoped
     fun provideMainActivityUseCases(
         webRepository: WebRepository,
-    ): MainActivityUseCases {
-        return MainActivityUseCases(
+    ): StockListUseCases {
+        return StockListUseCases(
             getStocksFromWeb = GetStocksFromWeb(webRepository),
         )
     }

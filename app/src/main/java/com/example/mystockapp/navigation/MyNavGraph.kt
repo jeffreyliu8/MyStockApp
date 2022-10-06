@@ -1,7 +1,6 @@
 package com.example.mystockapp.navigation
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,7 +26,8 @@ fun MyNavGraph(
             val uiState by viewModel.uiState.collectAsState()
             StockListScreen(
                 uiState = uiState,
-                onStockSelected = { appState.navigateToDetail(it.ticker, backStackEntry) }
+                onStockSelected = { appState.navigateToDetail(it.ticker, backStackEntry) },
+                snackBarHostState = appState.snackBarHostState,
             )
         }
         composable(Screen.DetailScreen.route) { backStackEntry ->
@@ -44,7 +44,8 @@ fun MyNavGraph(
 
             StockDetailScreen(
                 uiState = uiState,
-                upPress = { appState.upPress() }
+                upPress = { appState.upPress() },
+                snackBarHostState = appState.snackBarHostState,
             )
         }
     }
