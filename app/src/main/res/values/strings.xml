@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyStockApp</string>
+
+    <plurals name="number_of_stocks">
+        <item formatted="true" quantity="one">You own %1$d stock.</item>
+        <item formatted="true" quantity="other">You own %1$d stocks.</item>
+    </plurals>
 </resources>

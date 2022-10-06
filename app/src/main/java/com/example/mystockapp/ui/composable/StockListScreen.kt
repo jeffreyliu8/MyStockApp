@@ -6,15 +6,21 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mystockapp.R
 import com.example.mystockapp.model.Stock
 import com.example.mystockapp.model.StockListViewModelState
 import com.example.mystockapp.ui.theme.MyStockAppTheme
+import com.example.mystockapp.util.convertForCurrency
+import com.example.mystockapp.util.convertLongToTime
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun StockListScreen(
     modifier: Modifier = Modifier,
@@ -32,8 +38,8 @@ fun StockListScreen(
     ) { paddingValues ->
         LazyColumn(
             contentPadding = PaddingValues(
-                top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding(),
+                top = paddingValues.calculateTopPadding() + 16.dp,
+                bottom = paddingValues.calculateBottomPadding() + 16.dp,
                 start = 16.dp,
                 end = 16.dp
             ),
@@ -41,14 +47,25 @@ fun StockListScreen(
             modifier = modifier.fillMaxWidth()
         ) {
             items(uiState.stocks, key = { it.ticker }) {
-                Card(modifier = Modifier.fillMaxWidth(), onClick = { onStockSelected(it) }) {
+                Card(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.padding(8.dp)) {
-                        Text(text = it.ticker)
+                        Row {
+                            Text(
+                                text = it.ticker, modifier = Modifier.weight(1f),
+                                maxLines = 1, overflow = TextOverflow.Ellipsis
+                            )
+                            Text(text = convertForCurrency(it.currency, it.current_price_cents))
+                        }
+
                         Text(text = it.name)
-                        Text(text = it.currency)
-                        Text(text = it.current_price_cents.toString())
-                        Text(text = (it.quantity ?: 0).toString())
-                        Text(text = it.current_price_timestamp.toString())
+                        val q = it.quantity ?: 0
+                        Text(
+                            text = pluralStringResource(
+                                R.plurals.number_of_stocks,
+                                q, q
+                            )
+                        )
+                        Text(text = convertLongToTime(it.current_price_timestamp * 1000))
                     }
                 }
             }
