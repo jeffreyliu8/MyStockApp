@@ -19,4 +19,12 @@ class StockDetailScreenViewModel @Inject constructor(
     val uiState: StateFlow<StockDetailScreenViewModelState> = _uiState
 
 
+    fun setTicker(ticker: String?) {
+        if (ticker.isNullOrBlank()) {
+            return
+        }
+//        _uiState.update {
+//            it.copy(stock = ticker)
+//        }
+    }
 }

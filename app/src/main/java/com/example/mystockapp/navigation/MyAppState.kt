@@ -35,8 +35,8 @@ fun rememberMyAppState(
  */
 @Stable
 class MyAppState(
-    val snackBarHostState: SnackbarHostState,
-    val navController: NavHostController,
+    private val snackBarHostState: SnackbarHostState,
+    private val navController: NavHostController,
     private val snackBarManager: SnackBarManager,
     private val resources: Resources,
     coroutineScope: CoroutineScope

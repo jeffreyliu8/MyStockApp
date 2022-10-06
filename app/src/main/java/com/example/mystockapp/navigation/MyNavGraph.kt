@@ -13,10 +13,8 @@ import com.example.mystockapp.viewmodel.StockDetailScreenViewModel
 import com.example.mystockapp.viewmodel.StockListScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 
-
 @Composable
 fun MyNavGraph(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) {
@@ -27,14 +25,27 @@ fun MyNavGraph(
         composable(Screen.MainScreen.route) { backStackEntry ->
             val viewModel = hiltViewModel<StockListScreenViewModel>(backStackEntry)
             val uiState by viewModel.uiState.collectAsState()
-            StockListScreen(uiState = uiState,
-                onStockSelected = { appState.navigateToDetail(it.ticker, backStackEntry) })
+            StockListScreen(
+                uiState = uiState,
+                onStockSelected = { appState.navigateToDetail(it.ticker, backStackEntry) }
+            )
         }
         composable(Screen.DetailScreen.route) { backStackEntry ->
             val viewModel = hiltViewModel<StockDetailScreenViewModel>(backStackEntry)
             val uiState by viewModel.uiState.collectAsState()
-            StockDetailScreen(uiState = uiState,
-                upPress = { appState.upPress() })
+
+            LaunchedEffect(true) {
+                viewModel.setTicker(
+                    ticker = backStackEntry.arguments?.getString(
+                        STOCK_DETAIL_EXTRA_INPUT_ID_KEY
+                    )
+                )
+            }
+
+            StockDetailScreen(
+                uiState = uiState,
+                upPress = { appState.upPress() }
+            )
         }
     }
 }
