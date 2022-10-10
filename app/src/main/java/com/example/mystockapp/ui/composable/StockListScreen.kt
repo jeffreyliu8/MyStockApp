@@ -41,46 +41,63 @@ fun StockListScreen(
             )
         }
     ) { paddingValues ->
-        if (uiState.stocks.isEmpty()) {
-            Box(modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()) {
-                Text(
-                    text = stringResource(id = R.string.no_stocks),
-                    modifier = Modifier.align(Alignment.Center)
-                )
+        if (uiState.isLoading) {
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         } else {
-            LazyColumn(
-                contentPadding = PaddingValues(
-                    top = paddingValues.calculateTopPadding() + 16.dp,
-                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                    start = 16.dp,
-                    end = 16.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = modifier.fillMaxWidth()
-            ) {
-                items(uiState.stocks, key = { it.ticker }) {
-                    Card(modifier = Modifier.fillMaxWidth()) {
-                        Column(modifier = Modifier.padding(8.dp)) {
-                            Row {
-                                Text(
-                                    text = it.ticker, modifier = Modifier.weight(1f),
-                                    maxLines = 1, overflow = TextOverflow.Ellipsis
-                                )
-                                Text(text = convertForCurrency(it.currency, it.current_price_cents))
-                            }
+            if (uiState.stocks.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.no_stocks),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            } else {
+                LazyColumn(
+                    contentPadding = PaddingValues(
+                        top = paddingValues.calculateTopPadding() + 16.dp,
+                        bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = modifier.fillMaxWidth()
+                ) {
+                    items(uiState.stocks, key = { it.ticker }) {
+                        Card(modifier = Modifier.fillMaxWidth()) {
+                            Column(modifier = Modifier.padding(8.dp)) {
+                                Row {
+                                    Text(
+                                        text = it.ticker, modifier = Modifier.weight(1f),
+                                        maxLines = 1, overflow = TextOverflow.Ellipsis
+                                    )
+                                    Text(
+                                        text = convertForCurrency(
+                                            it.currency,
+                                            it.current_price_cents
+                                        )
+                                    )
+                                }
 
-                            Text(text = it.name)
-                            val q = it.quantity ?: 0
-                            Text(
-                                text = pluralStringResource(
-                                    R.plurals.number_of_stocks,
-                                    q, q
+                                Text(text = it.name)
+                                val q = it.quantity ?: 0
+                                Text(
+                                    text = pluralStringResource(
+                                        R.plurals.number_of_stocks,
+                                        q, q
+                                    )
                                 )
-                            )
-                            Text(text = convertLongToTime(it.current_price_timestamp * 1000))
+                                Text(text = convertLongToTime(it.current_price_timestamp * 1000))
+                            }
                         }
                     }
                 }

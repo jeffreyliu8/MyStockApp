@@ -23,15 +23,25 @@ class StockListScreenViewModel @Inject constructor(
     val uiState: StateFlow<StockListViewModelState> = _uiState
 
     init {
+        loadStocks()
+    }
+
+    private fun loadStocks() {
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(isLoading = true)
+            }
             val result = useCases.getStocksFromWeb()
             if (result.isSuccess) {
                 result.getOrNull()?.let { stocks ->
                     _uiState.update {
-                        it.copy(stocks = stocks)
+                        it.copy(stocks = stocks, isLoading = false)
                     }
                 }
             } else {
+                _uiState.update {
+                    it.copy(isLoading = false)
+                }
                 snackBarManager.showMessage(
                     R.string.something_went_wrong,
                     result.exceptionOrNull()?.message
