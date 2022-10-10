@@ -21,3 +21,6 @@ Try not to go with very old phone/sdk/api.
 4. 3rd party libraries or copied code you may have used
 
 Hilt, retrofit, compose. If any, my old repositories on github https://github.com/jeffreyliu8/github-search
+
+
+![Output sample](https://github.com/jeffreyliu8/MyStockApp/blob/main/ScreenShot.png)
