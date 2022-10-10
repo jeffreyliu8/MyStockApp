@@ -23,4 +23,11 @@ Try not to go with very old phone/sdk/api.
 Hilt, retrofit, compose. If any, my old repositories on github https://github.com/jeffreyliu8/github-search
 
 
+5.What area(s) did you focus on when working on the project? The architecture and data flow? The UI? Something else?
+I think a few that was not perfectly straight forward for me was what I should do with the currency as USD, do I need to 
+worry about other currencies, localizations, how the stock price amount should be formed on the screen,
+the rest I believe I would just following standard android/google design pattern from official sites
+or youtube channels.
+
+
 ![Output sample](https://github.com/jeffreyliu8/MyStockApp/blob/main/ScreenShot.png)
